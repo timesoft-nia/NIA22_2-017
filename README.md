@@ -1,4 +1,4 @@
-# NIA 2022 2-017 뉴스 대본 및 앵커 음성 데이터
+# NIA 2022 2-017 뉴스 대본 및 앵커 음성 데이터Cancel changes
 
 ### 모델 명칭
 * VITS<br>
@@ -16,23 +16,24 @@ VITS at training|VITS at inference|
 ![fig_1a](https://user-images.githubusercontent.com/118957399/205776786-32a06d0b-d1e5-47df-a164-7724331707b7.png)|![fig_1b](https://user-images.githubusercontent.com/118957399/205776793-1b22ff0e-2b7f-4b5a-b121-52d543bec02a.png)|
 
 ### Input Shape
-  * (x, x_lengths, y, y_lengths, waveform, aux_input={'d_vectors': None, 'language_ids': None, 'speaker_ids': None})<br>
-    x: [B,Tseq]<br>
-    x_lengths: [B]<br>
-    y: [B,C,Tspec]<br>
-    y_lengths: [B]<br>
-    waveform: [B,1,Twav]<br>
-    d_vectors: [B,C,1]<br>
-    speaker_ids: [B]<br>
-    language_ids: [B]<br>
+* (x, x_lengths, y, y_lengths, waveform, aux_input={'d_vectors': None, 'language_ids': None, 'speaker_ids': None})<br>
+  x: [B,Tseq]<br>
+  x_lengths: [B]<br>
+  y: [B,C,Tspec]<br>
+  y_lengths: [B]<br>
+  waveform: [B,1,Twav]<br>
+  d_vectors: [B,C,1]<br>
+  speaker_ids: [B]<br>
+  language_ids: [B]<br>
 
 ### Output Shape<br>
-model_outputs: [B,1,Twav]<br>
-alignments: [B,Tseq,Tdec]<br>
-z: [B,C,Tdec]<br>
-z_p: [B,C,Tdec]<br>
-m_p: [B,C,Tdec]<br>
-logs_p: [B,C,Tdec]<br>
+* (x, aux_input={'d_vectors': None, 'durations': None, 'language_ids': None, 'speaker_ids': None, 'x_lengths': None})
+  model_outputs: [B,1,Twav]<br>
+  alignments: [B,Tseq,Tdec]<br>
+  z: [B,C,Tdec]<br>
+  z_p: [B,C,Tdec]<br>
+  m_p: [B,C,Tdec]<br>
+  logs_p: [B,C,Tdec]<br>
 
 ### 학습 데이터셋<br>
 
