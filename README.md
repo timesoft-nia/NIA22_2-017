@@ -27,7 +27,7 @@ VITS at training|VITS at inference|
   language_ids: [B]<br>
 
 ### Output Shape<br>
-* (x, aux_input={'d_vectors': None, 'durations': None, 'language_ids': None, 'speaker_ids': None, 'x_lengths': None})
+* (x, aux_input={'d_vectors': None, 'durations': None, 'language_ids': None, 'speaker_ids': None, 'x_lengths': None})<br>
   model_outputs: [B,1,Twav]<br>
   alignments: [B,Tseq,Tdec]<br>
   z: [B,C,Tdec]<br>
