@@ -1,0 +1,87 @@
+<html>
+<head>
+	<title>VITS Demo </title>
+	<link rel="shortcut icon" href="#">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+	<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/jquery-latest.min.js') }}"></script>
+</head>
+<body>
+<script>
+	$(document).ready(() => {
+		$('#dim').hide();
+		var check_div_id = document.getElementById('form-check');
+		var checkCount = check_div_id.childElementCount;
+
+		$("#ttsForm").submit(() => {
+			let cnt = 0;
+			let textVal = $("textarea#textInput").val();
+
+			for (let i=1; i<=checkCount; i++) {
+				let id_name = "pv" + i;
+				if($("#" + id_name).is(':checked') == true) {
+					cnt++;
+				}
+			};
+
+			 if (textVal == '' && cnt == 0) {
+				alert("텍스트 입력 및 화자를 선택해주세요.");
+			} else if (cnt != 0 && textVal == '') {
+				alert("텍스트를 입력해주세요.");
+			} else if (textVal == '') {
+				alert("텍스트를 입력해주세요.");
+			} else if (cnt == 0) {
+				alert("화자를 선택해주세요.");
+			}
+
+			$('#dim').show();
+			return true;
+		});
+
+		$("#allCheck").click(function(){
+			$("input[type=checkbox]").prop("checked",true);
+		});
+		$("#allRelease").click(function(){
+			$("input[type=checkbox]").prop("checked",false);
+		});
+	});
+</script>
+
+<div id="dim" class="dim" style="width:100%; height:100%; position:absolute; background-color: #100; opacity:0.5; z-index:10;">
+	<div class="spinner-border text-info position-absolute top-50 start-50" role="status" style="z-index:999;">
+		<span class="visually-hidden">Loading...</span>
+	</div>
+</div>
+
+<div class="title bg-light" style="width:45%; margin:auto;">
+	<a href="#" onclick="location.href='/'" style="text-decoration:none"><p class="fs-3 fw-bold text-center">VITS DEMO</p></a>
+	<a href="#" onclick="location.href='/'" style="text-decoration:none"><p class="fs-4 fw-bolder text-center">뉴스 대본 및 앵커 음성 데이터</p></a>
+</div>
+<div class='main' style="display:flex">
+	<div class="container-sm bg-light" style="width:45%;">
+		<form id="ttsForm" action="{{ url_for('generate') }}" method="post">
+			<div>
+				<div class="form-floating">
+					<textarea id="textInput" name="text" class="form-control" placeholder="텍스트를 입력하세요." style="height: 100px; margin-bottom:1rem;"></textarea>
+					<label for="floatingInputValue" class="form-label">텍스트 입력</label>
+				</div>
+				<div class="form-action">
+					<button id="btnGenerate" type="submit" class="btn btn-primary mb-3">음성 생성</button>
+					<button type='button' id='allRelease' class="btn btn-secondary mb-3" style="float:right">전체 선택해제</button>
+					<button type='button' id='allCheck' class="btn btn-secondary mb-3" style="margin-right:10px; float:right;">전체 선택</button>
+				</div>
+			</div>
+			<div class="form-check" id="form-check">
+				{% for input in input_fields %}
+				<div style="margin:5px 0 5px 0">
+					<input class="form-check-input audioName" type="checkbox" id="{{ input['id'] }}" name="{{ input['id'] }}" value="{{ input['id'] }}">
+					<label class="form-check-label" for="{{ input['id'] }}">{{ input['label'] }}</label>
+				</div>
+				{% endfor %}
+			</div>
+		</form>
+	</div>
+</div>
+
+</body>
+</html>

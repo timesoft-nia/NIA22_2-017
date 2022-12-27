@@ -1,0 +1,123 @@
+<html>
+<head>
+    <title>VITS Demo </title>
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-latest.min.js') }}"></script>
+</head>
+
+<style>
+    .label_wrap{
+     display: flex;
+     }
+</style>
+
+<body>
+<script>
+	$(document).ready(function() {
+		$('#dim').hide();
+		$('#ttsForm').submit(function(){
+			$('#dim').show();
+			return true;
+		});
+
+		const element = document.getElementById('audio-item');
+		if (element == null) {
+			location.href = '/'
+		}
+
+	  $(".close_btn").click(function(){
+         var getItem = $(this).parent().next().attr("id");
+         var getId = document.getElementById(getItem);
+
+         $(getId).css('display','none');
+      });
+
+      $(".open_btn").click(function(){
+          var getItem = $(this).parent().next().attr("id");
+          var getId = document.getElementById(getItem);
+
+          $(getId).css('display','block');
+      });
+
+      $(".spk_btn").click(function(){
+    	  /*
+    	  	T: 숨겨진 상태
+    	  	F: 오픈된 상태
+    	  */
+          var getItem = $(this).parent().next().attr("id");
+    	  var getId = document.getElementById(getItem);
+
+          var getFlag = $(this).next().attr("id");
+          var getFlagId = document.getElementById(getFlag);
+          var getFlageIdVal = getFlagId.value
+
+          if (getFlageIdVal == 'F'){
+        	  $(this).val("펼치기");
+        	  $(getId).css('display','none');
+        	  $(getFlagId).val("T");
+
+          } else {
+        	  $(this).val("숨기기");
+        	  $(getId).css('display','block');
+        	  $(getFlagId).val("F");
+          }
+      });
+	});
+</script>
+
+<div id="dim" class="dim" style="width:100%; height:100%; position:absolute; background-color: #100; opacity:0.5; z-index:10;">
+    <div class="spinner-border text-info position-absolute top-50 start-50" role="status" style="z-index:999;">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<div class="title bg-light" style="width:45%; margin:auto;">
+    <a href="#" onclick="location.href='/'" style="text-decoration:none"><p class="fs-3 fw-bold text-center">VITS DEMO</p></a>
+    <a href="#" onclick="location.href='/'" style="text-decoration:none"><p class="fs-4 fw-bolder text-center">뉴스 대본 및 앵커 음성 데이터</p></a>
+</div>
+
+{% if audio %}
+<div class="container" style="width:45%;">
+    <div>
+        <div class="form-action">
+            <button type="button" class="btn btn-dark mb-3" onclick="location.href='/'">돌아가기</button>
+        </div>
+
+        <div>
+            {% for audio_list in audio_list_num %}
+                {% set audio_real_num = audio[audio_list]['label'].split(': ')[1] %}
+                <div class="bg-light" style="margin-bottom:10px;">
+                <div id="spk{{ audio_real_num }}_label_wrap">
+                    <p><strong><label for='pretrainAudio' style="margin-left:10px; color:blue;">{{ audio[audio_list]['label'] }}</label></strong></p>
+                    <input type="button" class="spk_btn btn-light" id="spk{{ audio_real_num }}_btn" value="숨기기" style="display:block; margin-left:10px; margin-bottom:10px;">
+                    <input type="text" value="F" id="spk{{ audio_real_num }}_Flag" hidden>
+                </div>
+                <div id="spk{{ audio_real_num }}_item2_wrap" style="display:block;">
+                {% for item2 in audio %}
+                    {% if audio[audio_list]['label'] == item2['label'] %}
+                        <div>
+                            <textarea id="textOutput" name='text' class="form-control" style="height: 35px; margin-top:5px;" readonly> {{ item2['text'] }}</textarea>
+                            <div class="spk_id_gubun">
+                                <div>
+                                    <div id="audio-item" class="audio-item" style="display:flex; align-items:center; margin-top:5px;">
+                                        <audio controls id='pretrainAudio'>
+                                            <source src="{{ item2['src'] }}" type="audio/wav" preload="auto">
+                                        </audio>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endif %}
+</body>
+</html>
