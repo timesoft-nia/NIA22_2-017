@@ -102,3 +102,6 @@ WAV|TXT|
 
 ### 모델 라이센스
 * [MIT](https://opensource.org/licenses/MIT)
+
+### Github 주소
+* [NIA 2022 2-017 뉴스 대본 및 앵커 음성 데이터](https://github.com/timesoft-nia/NIA22_2-017)
